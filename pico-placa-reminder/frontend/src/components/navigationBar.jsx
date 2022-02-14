@@ -1,12 +1,31 @@
-import React from 'react';
-import { Navbar, Container, Offcanvas, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Navbar, Container, Offcanvas, Nav, Form, FormControl, Button } from 'react-bootstrap';
 
-export default function navigationBar() {
+export default function NavigationBar() {
+    const [show, setShow] = useState(true);
+    const [view, setView] = useState(false);
+    const [menu, setMenu] = useState(true);
+
+    useEffect(()=>{
+        if(sessionStorage.getItem('token')){
+            setMenu(true);
+            setShow(false);
+            setView(true);
+        }
+    })
+
+    const exit=()=>{
+        sessionStorage.clear();
+        window.location.href='/'
+    }
+
     return (
         <div>
-            <Navbar bg="secondary" expand={false}>
+            <Navbar bg="secondary" expand={show}>
                 <Container fluid>
-                    <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+                    <Navbar.Brand href="/">Home</Navbar.Brand>
+                    <Navbar.Brand hidden={show}>Welcome User</Navbar.Brand>
+                    <Navbar.Brand hidden={show} href="#" onClick={()=>exit} to="/">Log Out</Navbar.Brand>
                     <Navbar.Toggle aria-controls="offcanvasNavbar" />
                     <Navbar.Offcanvas
                         id="offcanvasNavbar"
@@ -14,20 +33,12 @@ export default function navigationBar() {
                         placement="end"
                     >
                         <Offcanvas.Header closeButton>
-                            <Offcanvas.Title id="offcanvasNavbarLabel">Offcanvas</Offcanvas.Title>
+                            <Offcanvas.Title id="offcanvasNavbarLabel">Menu</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                 <Nav.Link href="/viewCar">Cars</Nav.Link>
                                 <Nav.Link href="/registerCar">Create Car</Nav.Link>
-                                <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-                                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item href="#action5">
-                                        Something else here
-                                    </NavDropdown.Item>
-                                </NavDropdown>
                             </Nav>
                             <Form className="d-flex">
                                 <FormControl

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function formCars() {
+export default function FormCars() {
     return (
         <div className="container mt-4">
             <div className="row">

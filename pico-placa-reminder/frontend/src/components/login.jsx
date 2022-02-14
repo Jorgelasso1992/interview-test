@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +11,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { useState } from 'react';
+import Axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -29,15 +30,43 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
+  //Login conection backend
+  const [ name, setName ] = useState('');
+  const [ password, setPassword ] = useState('');
+
+  const Login = async (e) => {
+    e.preventDefault();
+    const user = { name, password };
+    const response = await Axios.post('/user/Login', user);
+    console.log(response);
+    const message = response.data.message;
+
+    if (message !== 'You have logged in') {
+      alert(message);
+    }
+    else{
+      const token=response.data.token;
+      const name=response.data.name;
+      const idUser=response.data.id;
+
+      sessionStorage.setItem('token',token);
+      sessionStorage.setItem('name',name);
+      sessionStorage.setItem('idUser',idUser);
+      alert(message);
+      window.location.href='/Index'
+    }
+  }
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   // eslint-disable-next-line no-console
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   });
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -73,16 +102,17 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={Login} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="name"
+                label="Name"
+                name="name"
+                autoComplete="name"
                 autoFocus
+                onChange={(e)=>setName(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -93,6 +123,7 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e)=>setPassword(e.target.value)}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

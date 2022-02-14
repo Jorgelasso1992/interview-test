@@ -1,7 +1,7 @@
 import React from 'react'
 import MaterialTable from 'material-table'
 
-export default function viewCars() {
+export default function ViewCars() {
     return (
         <div className='container mt-5'>
             <MaterialTable
