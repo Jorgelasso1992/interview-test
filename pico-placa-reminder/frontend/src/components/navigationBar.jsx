@@ -6,26 +6,26 @@ export default function NavigationBar() {
     const [view, setView] = useState(false);
     const [menu, setMenu] = useState(true);
 
-    useEffect(()=>{
-        if(sessionStorage.getItem('token')){
+    useEffect(() => {
+        if (sessionStorage.getItem('token')) {
             setMenu(true);
             setShow(false);
             setView(true);
         }
-    })
+    }, [])
 
-    const exit=()=>{
+    const exit = () => {
         sessionStorage.clear();
-        window.location.href='/'
+        window.location.href = '/';
     }
 
     return (
         <div>
             <Navbar bg="secondary" expand={show}>
                 <Container fluid>
-                    <Navbar.Brand href="/">Home</Navbar.Brand>
-                    <Navbar.Brand hidden={show}>Welcome User</Navbar.Brand>
-                    <Navbar.Brand hidden={show} href="#" onClick={()=>exit} to="/">Log Out</Navbar.Brand>
+                    <Navbar.Brand hidden={view} href="/">Home</Navbar.Brand>
+                    <Navbar.Brand hidden={show}>Welcome {sessionStorage.getItem('name')}</Navbar.Brand>
+                    <Nav.Link hidden={show} onClick={() => exit()} to="/">Log Out</Nav.Link>
                     <Navbar.Toggle aria-controls="offcanvasNavbar" />
                     <Navbar.Offcanvas
                         id="offcanvasNavbar"
