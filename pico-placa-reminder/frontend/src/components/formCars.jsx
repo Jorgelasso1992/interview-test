@@ -3,9 +3,9 @@ import Axios from 'axios';
 
 export default function FormCars() {
 
-    const [brand, setBrand] = useState('')
-    const [color, setColor] = useState('')
-    const [license, setLicense] = useState('')
+    const [brand, setBrand] = useState('');
+    const [color, setColor] = useState('');
+    const [license, setLicense] = useState('');
 
     const register = async (e) => {
         e.preventDefault()
@@ -27,7 +27,7 @@ export default function FormCars() {
     }
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-5">
             <div className="row">
                 <div className="col-md-7  mx-auto">
                     <div className="card">
